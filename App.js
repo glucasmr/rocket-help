@@ -11,75 +11,81 @@ import {
   extendTheme,
   VStack,
   Box,
+  Input,
+  InputLeftElement,
+  Icon,
+  Pressable,
+  Button,
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
-import { Platform } from "react-native";
+import { Ionicons, Fontisto } from "@expo/vector-icons";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
-
-// extend the theme
-export const theme = extendTheme({ config });
+export const theme = extendTheme({
+  colors: {
+    loginScreen: {
+      bg: "#202024",
+      inputBg: "#121214",
+      inputColor: "#7C7C8A",
+      btn: "#E51C44",
+    },
+  },
+  config: {
+    useSystemColorMode: false,
+    initialColorMode: "dark",
+  },
+});
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
+    <NativeBaseProvider theme={theme}>
+      <Center _dark={{ bg: "loginScreen.bg" }} px={4} flex={1}>
         <VStack space={5} alignItems="center">
           <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
+          <Heading size="md">Acesse sua conta</Heading>
+          <Input
+            w="100%"
+            variant="filled"
+            _dark={{
+              bg: "loginScreen.inputBg",
+              placeholderTextColor: "loginScreen.inputColor",
+            }}
+            InputLeftElement={
+              <Icon
+                as={<Fontisto name="email" />}
+                size={5}
+                ml="2"
+                color="loginScreen.inputColor"
+              />
+            }
+            placeholder="E-mail"
+          />
+          <Input
+            w="100%"
+            variant="filled"
+            _dark={{
+              bg: "loginScreen.inputBg",
+              placeholderTextColor: "loginScreen.inputColor",
+            }}
+            InputLeftElement={
+              <Icon
+                as={<Ionicons name="key-outline" size={24} color="black" />}
+                size={5}
+                ml="2"
+                color="loginScreen.inputColor"
+              />
+            }
+            placeholder="Senha"
+          />
         </VStack>
+        <Button
+          size="lg"
+          w="100%"
+          _dark={{ bg: "loginScreen.btn" }}
+          style={{ marginTop: 25 }}
+        >
+          Entrar
+        </Button>
       </Center>
     </NativeBaseProvider>
-  );
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
   );
 }
